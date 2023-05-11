@@ -1,0 +1,14 @@
+{
+	"plugins": [
+		"bj/destroytest",
+		"bj/destroy"
+	],
+	"themes": [
+		"tiddlywiki/vanilla",
+		"tiddlywiki/snowwhite"
+	],
+	"doNotSave": [
+	],
+	"includeWikis": [
+	]
+}
