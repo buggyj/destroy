@@ -16,36 +16,26 @@ var Widget = require("$:/core/modules/widgets/widget.js").widget;
 /*
 Entry into destroy procedure
 */
-Widget.prototype.desendDestroy = function() {
-	this.blockRemoveChildDomNodes = true;//for blocking calls of removeChildDomNodes within a destroy method- 
-										 //use removeLocalDomNodes instead
-	this.desendDestroyInner();    
-	this.blockRemoveChildDomNodes = false;
-};
-
-
-Widget.prototype.desendDestroyInner = function() {
-/*
-Depth first destroy
-*/
+Widget.prototype.destroyChildren = function() {
 	$tw.utils.each(this.children,function(childWidget) {
-		childWidget.desendDestroyInner();
+		childWidget.destroy();
 	});
-	//acsending back up the tree
-	this.destroy();
-}
+};
 /*
 Legacy entry into destroy procedure
 */
 Widget.prototype.removeChildDomNodes = function() {
-	if (this.blockRemoveChildDomNodes) throw("removeChildDomNodes() cannot be called from within a destroy() function");
-	this.desendDestroy();
+	this.destroy();
 };
 /*
 Default destroy
 */
 Widget.prototype.destroy = function() {
-	this.removeLocalDomNodes();
+	// call children to remove their resources
+	this.destroyChildren();
+	// remove our resources
+	this.children = [];
+	this.removeLocalDomNodes();	
 };
 
 /*
